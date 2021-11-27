@@ -1,0 +1,7 @@
+{
+    "temp_dir": "temp",
+    "timeout_update_handler": {
+        "enabled": 2,
+        "disabled": 10
+    }
+}
