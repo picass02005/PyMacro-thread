@@ -13,7 +13,7 @@ def get_config(config_key: str) -> Any:
     config_key = config_key.split(".")[1:]
 
     if module == "global":
-        with open(f"../config.json", "r") as f:
+        with open(f"config.json", "r") as f:
             config = json.load(f)
 
     else:
