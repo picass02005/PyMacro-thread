@@ -1,7 +1,6 @@
 import os
 import subprocess
 import sys
-from threading import Thread
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -82,6 +81,7 @@ class Tray:
         self.tray.setContextMenu(menu)
 
     def run_tray(self):
+        logs.info("CORE", "Tray started")
         self.__app.exec()
 
     def __toggle_enabled(self):
