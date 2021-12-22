@@ -11,6 +11,7 @@ def reload_all():
 class MacroManager:
     def __init__(self):
         self.loaded = {}
+        self.window_disabled = []
 
     def load_module(self, module) -> None:
         """
@@ -33,21 +34,33 @@ class MacroManager:
 
     def register(
             self,
-            function: Callable,
+            macro: Callable,
             keys: str,
             before: Callable = None,
             after: Callable = None,
             loop: bool = False,
             window: Union[None, List[str]] = None
-    ):
-        for i in [function, before, after]:
-            if not ((not inspect.isfunction(i) and i == function) or (not inspect.isfunction(i) or i is None)):
-                logs.error("MacroManager", f"Cannot load macro with {keys=} {window=}: Given function, before or after "
+    ) -> None:
+        """
+        :param macro: The macro's function (cf. the main function)
+        :param keys: The key(s) you need to pull to trigger the macro ("." means "and" and "+" means "or"; or have the
+        priority over the and, e. "ctrl.a+b" means "ctrl and a or b")
+        :param before: The function which will be executed before the loop if it's set to true, else before the macro
+        :param after: Same as before but after macro or loop
+        :param loop: A bool indicating if the given macro must be run while you don't press another time the keys
+        :param window: A list of string which correspond of the window's names where this macro is active. If it's set
+        to None, this will work unless another macro is set on the same hook or you disable macro on a specific window
+        :return: None
+        """
+
+        for i in [macro, before, after]:
+            if not ((not inspect.isfunction(i) and i == macro) or (not inspect.isfunction(i) or i is None)):
+                logs.error("MacroManager", f"Cannot load macro with {keys=} {window=}: Given macro, before or after "
                                            f"isn't a function object (or none for before and after)")
                 return None
 
         try:
-            class_name = function.__qualname__.split(".")[-2]
+            class_name = macro.__qualname__.split(".")[-2]
 
         except IndexError:
             logs.error("MacroManager", f"Cannot load macro with {keys=} {window=}: cannot find parent class' name")
@@ -59,7 +72,7 @@ class MacroManager:
             return None
 
         self.loaded[class_name]['callbacks'].append({
-            'function': function,
+            'macro': macro,
             'before': before,
             'after': after,
             'keys': keys,
@@ -67,7 +80,14 @@ class MacroManager:
             'window': window
         })
 
-        print(self.loaded)
+        logs.info("MacroManager", f"Macro on {keys=} {window=} successfully registered")
 
-    def disable_for_window(self):
-        pass  # Todo
+    def disable_for_window(self, window: str) -> None:
+        """
+        :param window: The window where you want to disable macros
+        :return: None
+        """
+
+        self.window_disabled.append(window.lower())
+
+        logs.info("MacroManager", f"Macros on {window=} successfully disabled")

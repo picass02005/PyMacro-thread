@@ -8,6 +8,7 @@ class Test:
     def after_init(self):  # Do not change function name or args, will be invoked by MacroManager
         # Put all register or disabler in here
         self.macro_manager.register(self.a, "F13")
+        self.macro_manager.disable_for_window("minecraft")
 
     def a(self):
         pass
