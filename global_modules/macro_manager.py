@@ -10,8 +10,8 @@ def reload_all():
 
 class MacroManager:
     def __init__(self):
-        self.loaded = {}
-        self.window_disabled = []
+        self._loaded = {}
+        self._window_disabled = []
 
     def load_module(self, module) -> None:
         """
@@ -23,14 +23,14 @@ class MacroManager:
             raise TypeError(f"Module {module} isn't a class, please check than you submitted a class in all your module"
                             f"s' startup functions")
 
-        self.loaded.update({
+        self._loaded.update({
             module.__name__: {
                 'class': module(self),
                 'callbacks': []
             }
         })
 
-        self.loaded[module.__name__]['class'].after_init()
+        self._loaded[module.__name__]['class'].after_init()
 
     def register(
             self,
@@ -71,7 +71,7 @@ class MacroManager:
                                        f"list)")
             return None
 
-        self.loaded[class_name]['callbacks'].append({
+        self._loaded[class_name]['callbacks'].append({
             'macro': macro,
             'before': before,
             'after': after,
@@ -88,6 +88,6 @@ class MacroManager:
         :return: None
         """
 
-        self.window_disabled.append(window.lower())
+        self._window_disabled.append(window.lower())
 
         logs.info("MacroManager", f"Macros on {window=} successfully disabled")
