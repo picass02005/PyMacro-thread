@@ -1,4 +1,4 @@
-from core.load_macros import load_macros
+from core.macro_loader import load_macros
 from global_modules.macro_manager import MacroManager
 from global_modules.temp_manager import purge_temp
 from core.tray import Tray
