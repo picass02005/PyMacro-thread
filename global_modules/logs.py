@@ -29,7 +29,7 @@ def info(module: str, log: str) -> None:
 def warn(module: str, log: str) -> None:
     """
     :param module: The module name
-    :param log: The warn log you want
+    :param log: Warn level log you want
     :return: None
     """
 

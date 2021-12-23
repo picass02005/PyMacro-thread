@@ -49,7 +49,7 @@ class MacroManager:
         :param after: Same as before but after macro or loop
         :param loop: A bool indicating if the given macro must be run while you don't press another time the keys
         :param window: A list of string which correspond of the window's names where this macro is active. If it's set
-        to None, this will work unless another macro is set on the same hook or you disable macro on a specific window
+        to None, this will work unless another macro is set on the same hook, or you disable macro on a specific window
         :return: None
         """
 
