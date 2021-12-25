@@ -3,5 +3,6 @@
     "timeout_update_handler": {
         "enabled": 2,
         "disabled": 10
-    }
+    },
+    "window_detection_timeout": 1
 }
