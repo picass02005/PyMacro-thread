@@ -91,3 +91,34 @@ class MacroManager:
         self._window_disabled.append(window.lower())
 
         logs.info("MacroManager", f"Macros on {window=} successfully disabled")
+
+    def get_loaded_for_window(self, window_name: str):
+        if window_name is None:
+            return {}
+
+        window_name = window_name.lower()
+
+        if len(list(filter(lambda x: x in window_name, self._window_disabled))) != 0:
+            return {}
+
+        else:
+            ret = {}
+            for value in self._loaded.values():
+                for callback in value['callbacks']:
+                    if callback['window'] is None and callback['keys'].lower() not in ret.keys():
+                        ret.update({callback['keys'].lower(): {
+                            'macro': callback['macro'],
+                            'before': callback['before'],
+                            'after': callback['after'],
+                            'loop': callback['loop']
+                        }})
+
+                    elif window_name in callback['window']:
+                        ret.update({callback['keys'].lower(): {
+                            'macro': callback['macro'],
+                            'before': callback['before'],
+                            'after': callback['after'],
+                            'loop': callback['loop']
+                        }})
+
+            return ret

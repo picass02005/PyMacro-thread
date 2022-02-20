@@ -9,6 +9,8 @@ from core.tray import Tray
 from global_modules import logs
 from global_modules.get_config import get_config
 
+# TODO: add handler when window changes for run_macro
+
 
 class ActualWindow(Thread):
     def __init__(self, tray_thread: Tray):
