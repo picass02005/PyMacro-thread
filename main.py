@@ -26,3 +26,5 @@ if __name__ == "__main__":
 
 # TODO: readme
 # TODO: Create macro module script
+# TODO: remove test macro
+# TODO: create example macro
