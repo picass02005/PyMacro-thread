@@ -9,7 +9,7 @@ class Test:
 
     def after_init(self):  # Do not change function name or args, will be invoked by MacroManager
         # Put all register or disabler in here
-        self.macro_manager.register(self.macro, "F13", before=self.before, after=self.after)
+        self.macro_manager.register(self.macro, "F13", before=self.before, after=self.after, loop=True)
         self.macro_manager.disable_for_window("opera")
 
     #  NOTA: don't make functions static, or it breaks register

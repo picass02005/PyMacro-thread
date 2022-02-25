@@ -17,6 +17,9 @@ class MacroRunner(Thread):
         self.__actual_window = actual_window
         self.__tray = tray
 
+        self.__actual_window.callback_window_change = self.end_all_loop
+        self.__tray.callback_disable = self.end_all_loop
+
         self.__running = {}
 
         self.__pressed = []
@@ -59,6 +62,7 @@ class MacroRunner(Thread):
                         self.__running[macro_key]['thread'].start()
 
                     else:
+                        logs.info("MacroRunner", f"Terminating macro on {macro_key} due to user input")
                         self.__running[macro_key]['thread'].terminate()
                         self.__running[macro_key]['thread'].join()
 
@@ -68,11 +72,13 @@ class MacroRunner(Thread):
                             thread = Thread(target=after, daemon=True)
                             thread.start()
 
+                        self.__running.pop(macro_key)
+
                 else:
                     def wrapper():
-                        thread = self.__macro_run_thread(macro)
-                        thread.start()
-                        thread.join()
+                        thread_ = self.__macro_run_thread(macro)
+                        thread_.start()
+                        thread_.join()
 
                         if macro['after']:
                             logs.info("keyboard_handler", f"After {str(macro['after']).split(' ')[2]} started")
@@ -115,7 +121,7 @@ class MacroRunner(Thread):
         return False
 
     class __macro_run_thread(Thread):
-        def __init__(self, macro = dict):
+        def __init__(self, macro=dict):
             Thread.__init__(self)
             self.setDaemon(True)
 
@@ -142,3 +148,17 @@ class MacroRunner(Thread):
 
         def terminate(self):
             self.is_running = False
+
+    def end_all_loop(self):
+        for i in self.__running.copy().keys():
+            logs.info("MacroRunner", f"Terminating macro {i} due to window change or disabling")
+            self.__running[i]['thread'].terminate()
+            self.__running[i]['thread'].join()
+
+            if self.__running[i]['macro']['after']:
+                after = self.__running[i]['macro']['after']
+                logs.info("keyboard_handler", f"After {str(after).split(' ')[2]} started")
+                thread = Thread(target=after, daemon=True)
+                thread.start()
+
+            self.__running.pop(i)

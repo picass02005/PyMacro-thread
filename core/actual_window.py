@@ -9,8 +9,6 @@ from core.tray import Tray
 from global_modules import logs
 from global_modules.get_config import get_config
 
-# TODO: add handler when window changes for run_macro
-
 
 class ActualWindow(Thread):
     def __init__(self, tray_thread: Tray):
@@ -19,6 +17,8 @@ class ActualWindow(Thread):
 
         self._tray = tray_thread
         self.actual_window = None
+
+        self.callback_window_change = None
 
     def __init_platform_specific(self):
         if sys.platform == "win32":
@@ -45,7 +45,12 @@ class ActualWindow(Thread):
         while True:
             time.sleep(get_config("global.window_detection_timeout"))
             if self._tray.enabled:
-                self.actual_window = self.__get_actual_window()
+                if (actual_window := self.__get_actual_window()) != self.actual_window:
+                    logs.info("ActualWindow", f"Window changed from {self.actual_window} to {actual_window}")
+                    self.actual_window = actual_window
+
+                    if self.callback_window_change is not None:
+                        self.callback_window_change()
 
     def __get_actual_window(self):
         if sys.platform == "win32":

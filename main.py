@@ -15,9 +15,11 @@ if __name__ == "__main__":
 
     actual_window = ActualWindow(tray_thread)
     actual_window.setDaemon(True)
-    actual_window.start()
 
     macro_runner = MacroRunner(macro_manager, actual_window, tray_thread)
+    macro_runner.setDaemon(True)
+
+    actual_window.start()
     macro_runner.start()
 
     tray_thread.run_tray()  # Execute in main thread /!\

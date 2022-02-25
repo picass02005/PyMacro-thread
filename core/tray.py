@@ -26,6 +26,8 @@ class Tray:
 
         self.tray.setVisible(True)
 
+        self.callback_disable = None
+
     def __build_menu(self, enabled: bool = True):
         menu = QMenu(self.__parent)
 
@@ -91,6 +93,9 @@ class Tray:
             self.__build_menu(enabled=False)
 
             logs.info("tray", "Macros disabled")
+
+            if self.callback_disable is not None:
+                self.callback_disable()
 
         else:
             self.enabled = True
