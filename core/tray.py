@@ -6,11 +6,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from global_modules import logs
-from global_modules.macro_manager import reload_all
+from global_modules.macro_manager import MacroManager
 
 
 class Tray:
-    def __init__(self):
+    def __init__(self, macro_manager: MacroManager):
+        self.macro_manager = macro_manager
+
         self.__app = QApplication([])
 
         self.__app.setQuitOnLastWindowClosed(False)
@@ -53,8 +55,8 @@ class Tray:
         menu.addAction(item)
 
         item = QAction(self.__parent)
-        item.setText("TODO Reload registered macros")
-        item.triggered.connect(lambda: reload_all())
+        item.setText("Reload registered macros")
+        item.triggered.connect(lambda: self.macro_manager.reload_all())
         menu.addAction(item)
 
         item = QAction(self.__parent)
