@@ -22,6 +22,3 @@ if __name__ == "__main__":
     macro_runner.start()
 
     tray_thread.run_tray()  # Execute in main thread /!\
-
-# TODO: remove test macro
-# TODO: create example macro
