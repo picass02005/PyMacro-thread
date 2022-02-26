@@ -171,7 +171,7 @@ temp_file_path = temp_manager.create_random_file(base_name="test", extension="tx
 
 ---
 
-To create example macros, you can run `create_example_macros.py` (it will create 2 example folders under `./macros`)
+You have example macros under `./examples`, if you want to test them, move their folders inside `./macros`
 
 ## Support me
 
