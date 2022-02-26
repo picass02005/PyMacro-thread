@@ -1,5 +1,4 @@
 from core.actual_window import ActualWindow
-from global_modules.macro_manager import load_macros
 from core.macro_runner import MacroRunner
 from global_modules.macro_manager import MacroManager
 from global_modules.temp_manager import purge_temp
@@ -9,7 +8,7 @@ if __name__ == "__main__":
     purge_temp(True)
 
     macro_manager = MacroManager()
-    load_macros(macro_manager)
+    macro_manager.load_macros()
 
     tray_thread = Tray(macro_manager)
 
