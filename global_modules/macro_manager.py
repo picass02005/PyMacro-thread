@@ -78,6 +78,9 @@ class MacroManager:
                                        f"list)")
             return None
 
+        if window is not None:
+            window = [i.lower() for i in window]
+
         self._loaded[class_name]['callbacks'].append({
             'macro': macro,
             'before': before,
