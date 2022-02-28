@@ -1,3 +1,4 @@
+import time
 from threading import Thread
 from typing import Union
 
@@ -55,6 +56,8 @@ class MacroRunner(Thread):
         for macro_key in actual_loaded.keys():
             if self.__is_dict_key_pressed(macro_key):
                 macro = actual_loaded[macro_key]
+
+                time.sleep(0.2)  # To avoid triggering two times a macro
 
                 if macro["loop"]:
                     if macro_key not in self.__running.keys():
