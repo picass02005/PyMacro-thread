@@ -1,4 +1,4 @@
-psutil==5.9.0
-pyqt5==5.15.6
-# PyQt5-stubs==5.15.2.0  # For auto completion
+psutil==5.9.1
+pyqt5==5.15.7
+# PyQt5-stubs==5.15.6.0  # For auto completion
 pynput==1.7.6
